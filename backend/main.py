@@ -1,5 +1,4 @@
 import asyncio
-import random
 from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
@@ -47,7 +46,7 @@ async def websocket_endpoint(websocket: WebSocket):
     await manager.connect(websocket)
     try:
         while True:
-            await websocket.receive_text()  # Currently just to keep the connection open.
+            await websocket.receive_text()  # Keeps the connection open
     except WebSocketDisconnect:
         manager.disconnect(websocket)
 
@@ -84,19 +83,19 @@ async def manual_override(request: Request):
 
 @app.post("/process/{transaction_id}")
 async def trigger_lambda(transaction_id: str, background_tasks: BackgroundTasks):
-    # Simulate AWS Lambda processing via background tasks.
+    # Simulate AWS Lambda-like processing using a background task.
     background_tasks.add_task(process_transaction, transaction_id)
     return {"message": f"Transaction {transaction_id} is being processed in the background."}
 
 def process_transaction(transaction_id: str):
     print(f"Simulated Lambda: Processing transaction {transaction_id}")
 
-# Background task to simulate transactions every 5 seconds.
+# Background task to simulate transactions every 5 seconds
 async def background_simulator():
     while True:
         await asyncio.sleep(5)
         db = SessionLocal()
-        # Simulate a new transaction event.
+        # Simulate a new transaction event
         transaction_data = simulate_transaction()
         optimal_route = get_optimal_route(transaction_data)
         transaction = Transaction(
@@ -106,7 +105,7 @@ async def background_simulator():
         db.add(transaction)
         db.commit()
         db.refresh(transaction)
-        # Broadcast the new transaction to connected clients.
+        # Broadcast the new transaction to connected clients
         await manager.broadcast({
             "type": "new_transaction",
             "transaction": {
@@ -119,9 +118,9 @@ async def background_simulator():
 
 @app.on_event("startup")
 async def startup_event():
-    # Start the transaction simulator.
+    # Start the transaction simulator
     asyncio.create_task(background_simulator())
-    # Simulate cloud environment: create bucket, DynamoDB table and upload sample file.
+    # Simulate cloud environment by creating bucket/table and uploading a file.
     create_bucket()
     create_dynamodb_table()
     upload_sample_file()

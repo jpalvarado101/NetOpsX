@@ -1,7 +1,7 @@
 import boto3
 from botocore.config import Config
 
-# S3 Client for MinIO simulation
+# S3 client for MinIO simulation
 s3_client = boto3.client(
     "s3",
     endpoint_url="http://minio:9000",  # Using container name for MinIO
@@ -24,9 +24,15 @@ def upload_sample_file(bucket_name="netopsx-bucket", file_path="sample.txt"):
     except Exception as e:
         print("Error uploading file:", e)
 
-# DynamoDB simulation
 def create_dynamodb_table():
-    dynamodb = boto3.resource("dynamodb", endpoint_url="http://dynamodb:8000", region_name="us-east-1")
+    # Use dummy credentials since DynamoDB Local doesn't require real ones.
+    dynamodb = boto3.resource(
+        "dynamodb",
+        endpoint_url="http://dynamodb:8000",
+        region_name="us-east-1",
+        aws_access_key_id="dummy",
+        aws_secret_access_key="dummy"
+    )
     try:
         table = dynamodb.create_table(
             TableName="Transactions",
