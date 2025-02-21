@@ -1,12 +1,21 @@
+# NetOpsX – AI-Powered Network Performance & Transaction Validator
+
 ## 🚀 Overview
-**NetOpsX** is a full-stack **network operations dashboard** that monitors, validates, and optimizes transaction routing. This tool is designed to simulate real-world **payment networks**, making **AI-driven routing decisions** while allowing **manual overrides** by engineers.
+**NetOpsX** is a full-stack **network operations dashboard** that monitors, validates, and optimizes transaction routing. This tool is designed to simulate real-world **payment networks**, making **AI-driven routing decisions** while allowing **manual overrides** by engineers. It also includes **cloud service simulation** (S3, DynamoDB, Lambda) using **MinIO, LocalStack, and DynamoDB Local**.
 
 ### 🎯 **Why NetOpsX?**
 ✅ **Real-time transaction monitoring** via WebSockets.  
 ✅ **AI-based routing optimization** for network performance.  
 ✅ **Manual override support** for operations engineers.  
 ✅ **Simulated payment network** using **Redis, PostgreSQL, and Kafka**.  
+✅ **Cloud service emulation** (S3 via MinIO, Lambda via background tasks, DynamoDB Local).  
 ✅ **Full-stack development** (FastAPI + React + TypeScript).  
+
+### Cloud Deployment (AWS Simulation)
+- **Storage**: MinIO (S3-compatible)
+- **Serverless**: FastAPI background tasks (AWS Lambda-like)
+- **NoSQL Database**: DynamoDB Local (Amazon DynamoDB alternative)
+- **Cloud Infrastructure**: LocalStack (Mimicking AWS cloud)
 
 ## 📌 **Core Features**
 ### 🖥️ 1. Full-Stack Internal Tool (**React + TypeScript**)
@@ -19,11 +28,15 @@
 - Exposes **REST & WebSocket APIs** for real-time updates.
 - Implements **AI-driven routing** to select optimal payment providers.
 - **Transaction validation logic** prevents duplicate/fraudulent transactions.
+- **Cloud simulation** via LocalStack (S3, DynamoDB, Lambda-like tasks).
 
-### 📊 3. Network Simulation (**Docker + Redis + PostgreSQL + Kafka**)
+### 📊 3. Network & Cloud Simulation (**Docker + Redis + PostgreSQL + Kafka + MinIO + DynamoDB Local**)
 - Simulates **global payment networks** with multiple routing paths.
 - **Redis caches failed transactions** for automatic retries.
 - Stores **historical transaction data** in PostgreSQL.
+- **MinIO as S3-compatible storage**, allowing file uploads.
+- **DynamoDB Local for NoSQL data storage simulation**.
+- **Lambda-like execution using FastAPI background tasks**.
 
 ### 🤖 4. AI-Based Payment Routing (**Machine Learning/Heuristics**)
 - Determines the **best payment provider** based on success rates.
@@ -35,6 +48,7 @@
 ✅ **Backend:** FastAPI (Python) + PostgreSQL + Redis.  
 ✅ **Data Streaming:** Kafka (simulates real-time network traffic).  
 ✅ **Deployment:** Docker + Redis + PostgreSQL (fully local, no cloud required).  
+✅ **Cloud Simulation:** MinIO (S3), DynamoDB Local (NoSQL), LocalStack (AWS emulation).  
 ✅ **AI Component:** Scikit-Learn (or reinforcement learning) for routing optimization.  
 
 ## 🏗 **Project Structure**
@@ -46,8 +60,10 @@ NetOpsX/
 │   ├── database.py          # Database connection (PostgreSQL)
 │   ├── ai_routing.py        # AI routing logic
 │   ├── simulation.py        # Transaction simulation
+│   ├── cloud_simulation.py  # S3, DynamoDB, Lambda simulation
 │   ├── requirements.txt     # Backend dependencies
-│   └── Dockerfile           # Backend container
+│   ├── Dockerfile           # Backend container
+│   ├── sample.txt           # Sample file for S3 simulation
 ├── frontend/
 │   ├── package.json         # Frontend dependencies
 │   ├── tsconfig.json        # TypeScript configuration
@@ -93,25 +109,12 @@ docker-compose up --build
 | `GET` | `/transactions` | Fetch all transactions |
 | `POST` | `/transactions/override` | Manually override a transaction |
 | `POST` | `/transaction` | Submit a new transaction |
+| `POST` | `/process/{transaction_id}` | Simulate Lambda processing |
 | `GET` | `/ws` | WebSocket connection for live updates |
 
 ### ⚡ **WebSocket Real-Time Updates**
 - **Receives new transactions** as they occur.
 - **Broadcasts manual overrides** immediately.
-
-## 📌 **Development Workflow**
-### 🖥️ Running Backend (Locally)
-```bash
-cd backend
-pip install -r requirements.txt
-uvicorn main:app --reload
-```
-### 🎨 Running Frontend (Locally)
-```bash
-cd frontend
-npm install
-npm start
-```
 
 ## 📅 **Development Timeline**
 | Week | Task |
@@ -119,13 +122,9 @@ npm start
 | 1️⃣  | Backend setup (FastAPI, Redis, PostgreSQL) |
 | 2️⃣  | Frontend (React UI, WebSockets) |
 | 3️⃣  | AI Routing + API integrations |
-| 4️⃣  | Testing, Deployment & Documentation |
+| 4️⃣  | Cloud Simulation (MinIO, DynamoDB, Lambda) |
 
-## 👨‍💻 **Contributing**
-We welcome contributions! 🚀
-- Fork the repo
-- Create a new branch (`feature-x`)
-- Submit a PR with details!
+
 
 ## **📜 License**
 
